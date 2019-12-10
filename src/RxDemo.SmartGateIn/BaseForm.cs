@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Concurrency;
-using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Windows.Forms;
 using SmartGateIn.Daemon;
@@ -18,9 +17,9 @@ namespace SmartGateIn
         private IDisposable _cancelGateInSubscription;
 
         private ProcessStepBase _currentAction;
-        
-        private Queue<Func<ProcessStepBase>> _currentProcess;
         private IDisposable _currentActionTimeout;
+
+        private Queue<Func<ProcessStepBase>> _currentProcess;
 
         public BaseForm()
         {
@@ -42,12 +41,11 @@ namespace SmartGateIn
         {
             var connectivityDaemon = new ConnectivityDaemon().ShouldLockClient()
                 .Replay(1).RefCount();
-            var remoteControlDaemon = new RemoteControlDaemon(new RemoteControlService()).ShouldLockClient().Replay(1)
-                .RefCount();
+            var remoteControlDaemon = new RemoteControlDaemon(new RemoteControlService()).ShouldLockClient()
+                .Replay(1).RefCount();
 
             var lockstatus = connectivityDaemon
-                .CombineLatest(remoteControlDaemon,
-                    (network, remoteControl) => network || remoteControl)
+                .CombineLatest(remoteControlDaemon, (network, remoteControl) => network || remoteControl)
                 .DistinctUntilChanged()
                 .ObserveOn(ctrlButtonCancel);
 
@@ -119,8 +117,8 @@ namespace SmartGateIn
 
             var userCanceledProcess = Observable
                 .FromEventPattern(ctrlButtonCancel, nameof(ctrlButtonCancel.Click))
-                .SelectMany(_ => Observable.Throw<Exception>(new OperationCanceledException("Prozess wurde abgebrochen.")));
-            //.Select(_ => new OperationCanceledException("Operation abgebrochen")); => löst on next und nicht on error aus
+                .SelectMany(_ =>
+                    Observable.Throw<Exception>(new OperationCanceledException("Prozess wurde abgebrochen.")));
 
             _cancelGateInSubscription = currentProcessTimeout
                 .Amb(userCanceledProcess)
@@ -188,7 +186,7 @@ namespace SmartGateIn
             _currentActionTimeout?.Dispose();
 
             _currentProcess?.Clear();
-            
+
             ctrlButtonActionTimeout.Text = string.Empty;
             ctrlButtonProcessTimeout.Text = string.Empty;
         }

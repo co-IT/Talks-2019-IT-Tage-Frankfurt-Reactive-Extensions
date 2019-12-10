@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RxDemo.PlaygroundConsole
 {
@@ -8,6 +10,13 @@ namespace RxDemo.PlaygroundConsole
     {
         public void TimeToDemonstrate()
         {
+            var timer2 = Enumerable.Range(0, 10).Reverse().ToObservable()
+                .Select(val =>
+                {
+                    Thread.Sleep(1000);
+                    return val;
+                });
+
             var timer = Observable.Interval(TimeSpan.FromSeconds(1))
                 .Zip(Enumerable.Range(0, 10).Reverse().ToObservable(),
                     (_, time) => time)
@@ -15,7 +24,7 @@ namespace RxDemo.PlaygroundConsole
                 .Where(remaining => remaining <= 0)
                 .Select(_ => new TimeoutException("Die Gesamtdauer für den Prozess wurde überschritten."));
 
-            var subscriber = timer.Subscribe(
+            var subscriber = timer2.Subscribe(
                 x => Console.WriteLine(x)
             );
         }

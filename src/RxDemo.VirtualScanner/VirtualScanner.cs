@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using RxDemo.VirtualScanner.Properties;
@@ -8,6 +9,10 @@ namespace RxDemo.VirtualScanner
 {
     public partial class VirtualScanner : Form
     {
+
+        private int _lengthOfGeneratedString = 2;
+        private readonly Random _random = new Random();
+
         public VirtualScanner()
         {
             InitializeComponent();
@@ -36,7 +41,21 @@ namespace RxDemo.VirtualScanner
 
         private void pictureBox2_Click(object sender, EventArgs e)
         {
-            txtBox.Text = "123456";
+            txtBox.Text = RandomString();
+        }
+
+        private string RandomString()
+        {
+            _lengthOfGeneratedString += 1;
+
+            var alphanumeric = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+            var chars = Enumerable
+                .Repeat(alphanumeric, _lengthOfGeneratedString)
+                .Select(s => s[_random.Next(s.Length)])
+                .ToArray();
+
+            return new string(chars);
         }
     }
 }

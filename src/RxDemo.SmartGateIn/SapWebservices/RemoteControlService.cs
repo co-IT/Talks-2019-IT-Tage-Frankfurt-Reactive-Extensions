@@ -20,7 +20,6 @@ namespace SmartGateIn.SapWebservices
                     {
                         throw new IOException("Keine Verbindung zum SAP Backend");
                     }
-
                     
                     return await response.Content.ReadAsAsync<bool>();
                 }

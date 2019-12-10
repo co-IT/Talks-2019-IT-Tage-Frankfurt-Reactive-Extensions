@@ -55,7 +55,7 @@ namespace SmartGateIn.ProcessSteps
         {
             var scans = Observable
                 .Using(
-                    () => BarcodeScanner.Random(),
+                    () => BarcodeScanner.Virtual(),
                     scanner => scanner.ListenToScanner(AcceptableScans())
                 )
                 .SubscribeOn(TaskPoolScheduler.Default)
