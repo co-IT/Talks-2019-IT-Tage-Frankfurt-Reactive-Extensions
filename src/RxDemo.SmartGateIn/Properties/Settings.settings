@@ -1,0 +1,27 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SmartGateIn.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="BaseAddress" Type="System.String" Scope="User">
+      <Value Profile="(Default)">https://localhost:44379/</Value>
+    </Setting>
+    <Setting Name="StatusRoute" Type="System.String" Scope="User">
+      <Value Profile="(Default)">api/status</Value>
+    </Setting>
+    <Setting Name="ScanRoute" Type="System.String" Scope="User">
+      <Value Profile="(Default)">api/scan</Value>
+    </Setting>
+    <Setting Name="ScanResultTxtFilePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Abholschein.pdf</Value>
+    </Setting>
+    <Setting Name="ProcessTimeoutInSeconds" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">60</Value>
+    </Setting>
+    <Setting Name="SapBackendCallInterval" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="ProcessStepTimeoutInSeconds" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">15</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
